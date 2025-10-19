@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restablecer Contraseña - Sistema de Seguridad Bravo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Restablecer Contraseña</h1>
+                <p>Ingresa el token y tu nueva contraseña</p>
+            </div>
+            <form id="resetPasswordForm" class="auth-form">
+                <div class="form-group">
+                    <label for="correoReset">Correo Electrónico</label>
+                    <input type="email" id="correoReset" name="correoReset" required>
+                </div>
+                <div class="form-group">
+                    <label for="tokenReset">Token</label>
+                    <input type="text" id="tokenReset" name="tokenReset" required>
+                </div>
+                <div class="form-group">
+                    <label for="nuevaPassword">Nueva Contraseña</label>
+                    <input type="password" id="nuevaPassword" name="nuevaPassword" required>
+                </div>
+                <button type="submit" class="btn-primary btn-full">Restablecer Contraseña</button>
+            </form>
+            <div id="resetPasswordMsg" class="info-message"></div>
+            <div class="auth-footer">
+                <p><a href="login.html">Volver a iniciar sesión</a></p>
+            </div>
+        </div>
+    </div>
+    <script src="js/api.js"></script>
+    <script src="js/reset.js"></script>
+</body>
+</html>

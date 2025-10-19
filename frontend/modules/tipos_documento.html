@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tipos de Documento - Sistema de Seguridad Bravo</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/modules.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>Sistema Seguridad Bravo</h2>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="../dashboard.html" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span class="nav-text">Dashboard</span>
+        </a>
+        <div class="nav-section">Cuenta Corriente - Parámetros</div>
+        <a href="estado_civil.html" class="nav-item">
+          <span class="nav-icon">💍</span>
+          <span class="nav-text">Estado Civil</span>
+        </a>
+        <a href="tipos_documento.html" class="nav-item active">
+          <span class="nav-icon">🪪</span>
+          <span class="nav-text">Tipos de Documento</span>
+        </a>
+        <a href="tipos_movimiento_cxc.html" class="nav-item">
+          <span class="nav-icon">💸</span>
+          <span class="nav-text">Tipos de Movimiento</span>
+        </a>
+        <a href="tipos_saldo_cuenta.html" class="nav-item">
+          <span class="nav-icon">🏦</span>
+          <span class="nav-text">Tipos de Cuenta</span>
+        </a>
+        <a href="status_cuentas.html" class="nav-item">
+          <span class="nav-icon">📄</span>
+          <span class="nav-text">Status de Cuenta</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="../login.html" class="logout-btn">
+          <span class="nav-icon">🚪</span>
+          <span class="nav-text">Cerrar Sesión</span>
+        </a>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="content-header">
+        <div class="header-title">
+          <h1>Gestión de Tipos de Documento</h1>
+          <p>Administra los tipos de documento registrados en el sistema</p>
+        </div>
+        <div class="user-menu">
+          <span class="user-name">Usuario: Admin</span>
+        </div>
+      </header>
+      <div class="module-container">
+        <div class="module-header">
+          <h2 class="module-title">Listado de Tipos de Documento</h2>
+          <button class="btn-add" onclick="openTipoDocumentoModal()">
+            <span>+</span> Nuevo Tipo de Documento
+          </button>
+        </div>
+        <div class="filters">
+          <div class="search-box">
+            <input type="text" placeholder="Buscar tipo de documento..." id="searchTipoDocumento">
+          </div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tipos-documento-table-body">
+            <!-- Las filas se llenan dinámicamente con JS -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <div id="tipoDocumentoModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTipoDocumentoTitle">Nuevo Tipo de Documento</h2>
+        <button class="close-modal" onclick="closeTipoDocumentoModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="tipoDocumentoForm">
+          <input type="hidden" id="tipoDocumentoId">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="tipoDocumentoNombre">Nombre *</label>
+              <input type="text" id="tipoDocumentoNombre" required>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" type="button" onclick="closeTipoDocumentoModal()">Cancelar</button>
+        <button class="btn-save" type="button" onclick="saveTipoDocumento()">Guardar</button>
+      </div>
+    </div>
+  </div>
+  <script src="../js/api.js"></script>
+  <script src="../js/modules/tipos_documento.js"></script>
+</body>
+</html>

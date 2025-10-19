@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menús - Sistema de Seguridad Bravo</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/modules.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Sistema Seguridad Bravo</h2>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="../dashboard.html" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+
+                <div class="nav-section">Seguridad - Parámetros Generales</div>
+                <a href="empresas.html" class="nav-item">
+                    <span class="nav-icon">🏢</span>
+                    <span class="nav-text">Empresas</span>
+                </a>
+                <a href="sucursales.html" class="nav-item">
+                    <span class="nav-icon">🏬</span>
+                    <span class="nav-text">Sucursales</span>
+                </a>
+                <a href="generos.html" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-text">Géneros</span>
+                </a>
+                <a href="status-usuario.html" class="nav-item">
+                    <span class="nav-icon">✅</span>
+                    <span class="nav-text">Estatus Usuario</span>
+                </a>
+                <a href="roles.html" class="nav-item">
+                    <span class="nav-icon">🔐</span>
+                    <span class="nav-text">Roles</span>
+                </a>
+                <a href="modulos.html" class="nav-item">
+                    <span class="nav-icon">📁</span>
+                    <span class="nav-text">Módulos</span>
+                </a>
+                <a href="menus.html" class="nav-item active">
+                    <span class="nav-icon">📋</span>
+                    <span class="nav-text">Menús</span>
+                </a>
+                <a href="opciones.html" class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-text">Opciones</span>
+                </a>
+
+                <div class="nav-section">Seguridad - Acciones</div>
+                <a href="usuarios.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-text">Usuarios</span>
+                </a>
+                <a href="asignar-opciones.html" class="nav-item">
+                    <span class="nav-icon">🔗</span>
+                    <span class="nav-text">Asignar Opciones a Role</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../login.html" class="logout-btn">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-text">Cerrar Sesión</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-title">
+                    <h1>Gestión de Menús</h1>
+                    <p>Administra los menús del sistema</p>
+                </div>
+                <div class="user-menu">
+                    <span class="user-name">Usuario: Admin</span>
+                </div>
+            </header>
+
+            <div class="module-container">
+                <div class="module-header">
+                    <h2 class="module-title">Listado de Menús</h2>
+                    <button class="btn-add" onclick="openMenuModal()">
+                        <span>+</span> Nuevo Menú
+                    </button>
+                </div>
+
+                <div class="filters">
+                    <div class="search-box">
+                        <input type="text" placeholder="Buscar menús..." id="searchMenus">
+                    </div>
+                    <div class="filter-select">
+                        <select id="filterModulo">
+                            <option value="">Todos los módulos</option>
+                        </select>
+                    </div>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Módulo</th>
+                            <th>Orden</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="menus-table-body">
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para agregar/editar menú -->
+    <div id="menuModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalMenuTitle">Nuevo Menú</h2>
+                <button class="close-modal" onclick="closeMenuModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="menuForm">
+                    <input type="hidden" id="menuId">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="menuNombre">Nombre *</label>
+                            <input type="text" id="menuNombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="menuModulo">Módulo *</label>
+                            <select id="menuModulo" required>
+                                <option value="">Seleccionar módulo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="menuOrden">Orden *</label>
+                            <input type="number" id="menuOrden" min="1" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeMenuModal()">Cancelar</button>
+                <button class="btn-save" onclick="saveMenu()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/modules/menus.js"></script>
+</body>
+
+</html>

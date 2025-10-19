@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empresas - Sistema de Seguridad Bravo</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/modules.css">
+    <script src="../js/modules/empresas.js"></script>
+
+    <style>
+        /* Scroll para la configuración avanzada */
+        #configContent {
+            max-height: 250px;
+            overflow-y: auto;
+            padding-right: 8px;
+            background: #f8f8f8;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .form-section {
+            grid-column: 1 / -1;
+            font-weight: bold;
+            margin: 20px 0 10px 0;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #3498db;
+            color: #2c3e50;
+        }
+
+        .config-toggle {
+            grid-column: 1 / -1;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .config-toggle:hover {
+            background: #e9ecef;
+        }
+
+        .config-content {
+            grid-column: 1 / -1;
+            display: none;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .config-badge {
+            background: #3498db;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Sistema Seguridad BRL</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="../dashboard.html" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+
+                <div class="nav-section">Seguridad - Parámetros Generales</div>
+                <a href="empresas.html" class="nav-item active">
+                    <span class="nav-icon">🏢</span>
+                    <span class="nav-text">Empresas</span>
+                </a>
+                <a href="sucursales.html" class="nav-item">
+                    <span class="nav-icon">🏬</span>
+                    <span class="nav-text">Sucursales</span>
+                </a>
+                <a href="generos.html" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-text">Géneros</span>
+                </a>
+                <a href="status-usuario.html" class="nav-item">
+                    <span class="nav-icon">🔄</span>
+                    <span class="nav-text">Status Usuario</span>
+                </a>
+                <a href="roles.html" class="nav-item">
+                    <span class="nav-icon">🎯</span>
+                    <span class="nav-text">Roles</span>
+                </a>
+
+                <div class="nav-section">Seguridad - Acciones</div>
+                <a href="usuarios.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-text">Usuarios</span>
+                </a>
+                <a href="asignacion-opciones.html" class="nav-item">
+                    <span class="nav-icon">🔗</span>
+                    <span class="nav-text">Asignar Opciones</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="../login.html" class="logout-btn">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-text">Cerrar Sesión</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-title">
+                    <h1>Gestión de Empresas</h1>
+                    <p>Administra las empresas del sistema</p>
+                </div>
+                <div class="user-menu">
+                    <span class="user-name" id="current-user">Usuario: Admin</span>
+                </div>
+            </header>
+
+            <div class="module-container">
+                <div class="module-header">
+                    <h2 class="module-title">Listado de Empresas</h2>
+                    <button class="btn-add" onclick="openEmpresaModal()">
+                        <span>+</span> Nueva Empresa
+                    </button>
+                </div>
+
+                <div class="filters">
+                    <div class="search-box">
+                        <input type="text" placeholder="Buscar por nombre o NIT..." id="searchEmpresas">
+                    </div>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>NIT</th>
+                            <th>Dirección</th>
+                            <th>Fecha Creación</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="empresas-table-body">
+                        <tr>
+                            <td colspan="7" class="no-data">Cargando empresas...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <div id="empresaModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalEmpresaTitle">Nueva Empresa</h2>
+                <button class="close-modal" onclick="closeEmpresaModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="empresaForm">
+                    <input type="hidden" id="empresaId">
+                    <div class="form-grid">
+                        <div class="form-section">Información Básica</div>
+
+                        <div class="form-group form-full">
+                            <label for="empresaNombre">Nombre de la Empresa *</label>
+                            <input type="text" id="empresaNombre" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="empresaNit">NIT *</label>
+                            <input type="text" id="empresaNit" required>
+                        </div>
+
+                        <div class="form-group form-full">
+                            <label for="empresaDireccion">Dirección *</label>
+                            <input type="text" id="empresaDireccion" required>
+                        </div>
+
+                        <!-- Configuración de Seguridad (Oculto por defecto) -->
+                        <div class="config-toggle" onclick="toggleConfig()">
+                            <span>Configuración de Seguridad Avanzada</span>
+                            <span class="config-badge" id="configBadge">Oculto</span>
+                        </div>
+
+                        <div class="config-content" id="configContent">
+                            <div class="config-grid">
+                                <div class="form-group">
+                                    <label for="passwordLargo">Largo de Password</label>
+                                    <input type="number" id="passwordLargo" value="8" min="6" max="20">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="passwordMayusculas">Mayúsculas requeridas</label>
+                                    <input type="number" id="passwordMayusculas" value="1" min="0" max="5">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="passwordMinusculas">Minúsculas requeridas</label>
+                                    <input type="number" id="passwordMinusculas" value="1" min="0" max="5">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="passwordNumeros">Números requeridos</label>
+                                    <input type="number" id="passwordNumeros" value="1" min="0" max="5">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="passwordCaracteresEspeciales">Caracteres especiales</label>
+                                    <input type="number" id="passwordCaracteresEspeciales" value="1" min="0" max="5">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="passwordIntentosBloqueo">Intentos antes de bloquear</label>
+                                    <input type="number" id="passwordIntentosBloqueo" value="5" min="1" max="10">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="passwordCaducidadDias">Caducidad (días)</label>
+                                    <input type="number" id="passwordCaducidadDias" value="60" min="30" max="365">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="passwordPreguntasValidar">Preguntas para validar</label>
+                                    <input type="number" id="passwordPreguntasValidar" value="1" min="1" max="3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeEmpresaModal()">Cancelar</button>
+                <button class="btn-save" onclick="saveEmpresa()" type="submit">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/modules/empresas.js"></script>
+    <script>
+        function toggleConfig() {
+            const content = document.getElementById('configContent');
+            const badge = document.getElementById('configBadge');
+
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+                badge.textContent = 'Oculto';
+            } else {
+                content.style.display = 'block';
+                badge.textContent = 'Visible';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('configContent').style.display = 'none';
+        });
+    </script>
+</body>
+
+</html>

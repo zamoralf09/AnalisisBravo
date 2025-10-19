@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Sistema de Seguridad Bravo</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/usuarios.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="../images/logo.png" alt="Logo" class="sidebar-logo">
+                <h2>Seguridad Bravo</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="../dashboard.html">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="gestion-usuarios.html">
+                            <i class="fas fa-users"></i>
+                            <span>Gestión de Usuarios</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="perfil-usuario.html">
+                            <i class="fas fa-user"></i>
+                            <span>Mi Perfil</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Roles y Permisos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">
+                            <i class="fas fa-history"></i>
+                            <span>Auditoría</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">
+                            <i class="fas fa-cog"></i>
+                            <span>Configuración</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button onclick="logout()" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Cerrar Sesión</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="content-header">
+                <div class="header-left">
+                    <button class="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>Mi Perfil</h1>
+                </div>
+                
+                <div class="header-right">
+                    <div class="user-menu">
+                        <div class="user-info">
+                            <span class="user-name" id="userName">Cargando...</span>
+                            <span class="user-role" id="userRole">Usuario</span>
+                        </div>
+                        <div class="user-avatar">
+                            <img src="../images/default-avatar.png" alt="Avatar" id="userAvatar">
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="content">
+                <div class="profile-container">
+                    <!-- Profile Card -->
+                    <div class="card profile-card">
+                        <div class="profile-header">
+                            <div class="profile-avatar">
+                                <img src="../images/default-avatar.png" alt="Avatar" id="profileAvatar">
+                                <div class="avatar-actions">
+                                    <label for="avatarUpload" class="btn btn-outline btn-sm">
+                                        <i class="fas fa-camera"></i> Cambiar
+                                    </label>
+                                    <input type="file" id="avatarUpload" accept="image/*" 
+                                           style="display: none;" onchange="uploadAvatar(this)">
+                                    <button class="btn btn-outline btn-sm" onclick="removeAvatar()">
+                                        <i class="fas fa-trash"></i> Eliminar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="profile-info">
+                                <h2 id="profileName">Cargando...</h2>
+                                <p class="profile-username" id="profileUsername">@username</p>
+                                <p class="profile-email" id="profileEmail">email@ejemplo.com</p>
+                                <span class="status-badge status-activo" id="profileStatus">ACTIVO</span>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <span class="stat-number" id="profileSince">0</span>
+                                <span class="stat-label">Días en el sistema</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="lastLogin">-</span>
+                                <span class="stat-label">Último acceso</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="passwordExpires">0</span>
+                                <span class="stat-label">Días para expirar contraseña</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Tabs -->
+                    <div class="card profile-tabs">
+                        <div class="tabs-header">
+                            <button class="tab-btn active" onclick="switchTab('info')">
+                                <i class="fas fa-info-circle"></i> Información Personal
+                            </button>
+                            <button class="tab-btn" onclick="switchTab('security')">
+                                <i class="fas fa-shield-alt"></i> Seguridad
+                            </button>
+                            <button class="tab-btn" onclick="switchTab('activity')">
+                                <i class="fas fa-history"></i> Actividad
+                            </button>
+                        </div>
+
+                        <!-- Información Personal Tab -->
+                        <div class="tab-content active" id="tab-info">
+                            <form id="profileForm" class="profile-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="profileNombre">Nombre *</label>
+                                        <input type="text" id="profileNombre" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profileApellido">Apellido *</label>
+                                        <input type="text" id="profileApellido" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="profileUsername">Usuario *</label>
+                                        <input type="text" id="profileUsername" required readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profileEmail">Email *</label>
+                                        <input type="email" id="profileEmail" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="profilePuesto">Puesto</label>
+                                        <input type="text" id="profilePuesto">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profileFechaInicio">Fecha de Inicio</label>
+                                        <input type="date" id="profileFechaInicio">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-outline" onclick="resetForm()">
+                                        Cancelar
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i> Guardar Cambios
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Seguridad Tab -->
+                        <div class="tab-content" id="tab-security">
+                            <div class="security-content">
+                                <h3>Cambiar Contraseña</h3>
+                                <form id="passwordForm" class="password-form">
+                                    <div class="form-group">
+                                        <label for="currentPassword">Contraseña Actual *</label>
+                                        <input type="password" id="currentPassword" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="newPassword">Nueva Contraseña *</label>
+                                        <input type="password" id="newPassword" required>
+                                        <div class="password-strength" id="passwordStrength">
+                                            <div class="strength-bar"></div>
+                                            <span class="strength-text">Seguridad: Muy Débil</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="confirmPassword">Confirmar Nueva Contraseña *</label>
+                                        <input type="password" id="confirmPassword" required>
+                                    </div>
+                                    
+                                    <div class="password-requirements">
+                                        <h4>La contraseña debe contener:</h4>
+                                        <ul>
+                                            <li id="reqLength">Mínimo 8 caracteres</li>
+                                            <li id="reqUpper">Al menos una mayúscula</li>
+                                            <li id="reqLower">Al menos una minúscula</li>
+                                            <li id="reqNumber">Al menos un número</li>
+                                            <li id="reqSpecial">Al menos un carácter especial</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-key"></i> Cambiar Contraseña
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Actividad Tab -->
+                        <div class="tab-content" id="tab-activity">
+                            <div class="activity-content">
+                                <h3>Historial de Actividad</h3>
+                                <div class="activity-list" id="profileActivityList">
+                                    <div class="activity-item loading">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <span>Cargando actividad...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/perfil.js"></script>
+</body>
+</html>

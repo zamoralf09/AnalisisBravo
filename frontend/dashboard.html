@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistema de Seguridad Bravo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/modules.css">
+    <style>
+        .quick-access {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .quick-access h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+        
+        .quick-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        
+        .quick-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .quick-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+        
+        .quick-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .module-placeholder {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .module-placeholder h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        .module-placeholder p {
+            color: #7f8c8d;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Sistema Seguridad Bravo</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item active">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                
+                <div class="nav-section">Seguridad - Parámetros Generales</div>
+                <a href="modules/empresas.html" class="nav-item">
+                    <span class="nav-icon">🏢</span>
+                    <span class="nav-text">Empresas</span>
+                </a>
+                <a href="modules/sucursales.html" class="nav-item">
+                    <span class="nav-icon">🏬</span>
+                    <span class="nav-text">Sucursales</span>
+                </a>
+                <a href="modules/generos.html" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-text">Géneros</span>
+                </a>
+                <a href="modules/status-usuario.html" class="nav-item">
+                    <span class="nav-icon">✅</span>
+                    <span class="nav-text">Estatus Usuario</span>
+                </a>
+                <a href="modules/roles.html" class="nav-item">
+                    <span class="nav-icon">🔐</span>
+                    <span class="nav-text">Roles</span>
+                </a>
+                <a href="modules/modulos.html" class="nav-item">
+                    <span class="nav-icon">📁</span>
+                    <span class="nav-text">Módulos</span>
+                </a>
+                <a href="modules/menus.html" class="nav-item">
+                    <span class="nav-icon">📋</span>
+                    <span class="nav-text">Menús</span>
+                </a>
+                <a href="modules/opciones.html" class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-text">Opciones</span>
+                </a>
+                
+                <div class="nav-section">Seguridad - Acciones</div>
+                <a href="modules/usuarios.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-text">Usuarios</span>
+                </a>
+                <a href="modules/asignar-opciones.html" class="nav-item">
+                    <span class="nav-icon">🔗</span>
+                    <span class="nav-text">Asignar Opciones a Role</span>
+                </a>
+
+                <div class="nav-section">Cuenta Corriente</div>
+                <a href="modules/status_cuentas.html" class="nav-item">
+                    <span class="nav-icon">💳</span>
+                    <span class="nav-text">Status de Cuentas</span>
+                </a>
+                <a href="modules/estado_civil.html" class="nav-item">
+                    <span class="nav-icon">🏦</span>
+                    <span class="nav-text">Estado Civil</span>
+                </a>
+                <a href="modules/tipos_documento.html" class="nav-item">
+                    <span class="nav-icon">🪪</span>
+                    <span class="nav-text">Tipos de Documento</span>
+                </a>
+                <a href="modules/tipos_movimiento_cxc.html" class="nav-item">
+                    <span class="nav-icon">💸</span>
+                    <span class="nav-text">Tipos de Movimiento</span>
+                </a>
+                <a href="modules/tipos_saldo_cuenta.html" class="nav-item">
+                    <span class="nav-icon">🏦</span>
+                    <span class="nav-text">Tipos de Cuenta</span>
+                </a>
+                <a href="modules/personas.html" class="nav-item">
+                    <span class="nav-icon">📄</span>
+                    <span class="nav-text">Personas</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="#" id="logoutBtn" class="logout-btn">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-text">Cerrar Sesión</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-title">
+                    <h1>Panel de Control</h1>
+                    <p>Bienvenido al sistema de seguridad</p>
+                </div>
+                <div class="user-menu">
+                    <span class="user-name">Usuario: <span id="current-user">Manager</span></span>
+                    <div class="notifications">🔔 <span class="notification-count">0</span></div>
+                </div>
+            </header>
+
+            <!-- Dashboard Stats -->
+            <section class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">🏢</div>
+                    <div class="stat-info">
+                        <h3>Empresas</h3>
+                        <span class="stat-number" id="empresas-count">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👤</div>
+                    <div class="stat-info">
+                        <h3>Usuarios</h3>
+                        <span class="stat-number" id="usuarios-count">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔐</div>
+                    <div class="stat-info">
+                        <h3>Roles</h3>
+                        <span class="stat-number" id="roles-count">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📁</div>
+                    <div class="stat-info">
+                        <h3>Módulos</h3>
+                        <span class="stat-number" id="modulos-count">0</span>
+                    </div>
+                </div>
+            </section>
+            <section class="quick-access">
+                <h2>Acceso Rápido</h2>
+                <div class="quick-buttons">
+                    <a href="modules/empresas.html" class="quick-btn">
+                        <span class="quick-icon">🏢</span>
+                        <span>Empresas</span>
+                    </a>
+                    <a href="modules/usuarios.html" class="quick-btn">
+                        <span class="quick-icon">👤</span>
+                        <span>Usuarios</span>
+                    </a>
+                    <a href="modules/roles.html" class="quick-btn">
+                        <span class="quick-icon">🔐</span>
+                        <span>Roles</span>
+                    </a>
+                    <a href="modules/modulos.html" class="quick-btn">
+                        <span class="quick-icon">📁</span>
+                        <span>Módulos</span>
+                    </a>
+                    
+                </div>
+            </section>
+
+            <section class="activity-section">
+                <h2>Actividad Reciente</h2>
+                <div class="activity-list" id="recent-activity">
+                    <div class="activity-item">
+                        <div class="activity-icon">🔐</div>
+                        <div class="activity-content">
+                            <p>Sesión iniciada correctamente</p>
+                            <span class="activity-time">Justo ahora</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

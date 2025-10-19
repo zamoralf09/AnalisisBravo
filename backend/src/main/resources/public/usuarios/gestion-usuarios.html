@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios - Sistema de Seguridad Bravo</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/usuarios.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="../images/logo.png" alt="Logo" class="sidebar-logo">
+                <h2>Seguridad Bravo</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="../dashboard.html">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="gestion-usuarios.html">
+                            <i class="fas fa-users"></i>
+                            <span>Gestión de Usuarios</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="perfil-usuario.html">
+                            <i class="fas fa-user"></i>
+                            <span>Mi Perfil</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Roles y Permisos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">
+                            <i class="fas fa-history"></i>
+                            <span>Auditoría</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">
+                            <i class="fas fa-cog"></i>
+                            <span>Configuración</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button onclick="logout()" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Cerrar Sesión</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="content-header">
+                <div class="header-left">
+                    <button class="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>Gestión de Usuarios</h1>
+                </div>
+                
+                <div class="header-right">
+                    <div class="user-menu">
+                        <div class="user-info">
+                            <span class="user-name" id="userName">Cargando...</span>
+                            <span class="user-role" id="userRole">Usuario</span>
+                        </div>
+                        <div class="user-avatar">
+                            <img src="../images/default-avatar.png" alt="Avatar" id="userAvatar">
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="content">
+                <!-- Toolbar -->
+                <div class="toolbar">
+                    <button class="btn btn-primary" onclick="openUserModal()">
+                        <i class="fas fa-plus"></i> Nuevo Usuario
+                    </button>
+                    
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Buscar usuarios..." 
+                               oninput="filterUsers()">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <select id="statusFilter" onchange="filterUsers()">
+                            <option value="">Todos los estados</option>
+                            <option value="ACTIVO">Activos</option>
+                            <option value="INACTIVO">Inactivos</option>
+                            <option value="BLOQUEADO">Bloqueados</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Users Table -->
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th>Foto</th>
+                                    <th>Usuario</th>
+                                    <th>Nombre Completo</th>
+                                    <th>Email</th>
+                                    <th>Puesto</th>
+                                    <th>Estado</th>
+                                    <th>Último Acceso</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                                <tr>
+                                    <td colspan="8" class="loading-row">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        Cargando usuarios...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-footer">
+                        <div class="pagination-info">
+                            Mostrando <span id="currentCount">0</span> de <span id="totalCount">0</span> usuarios
+                        </div>
+                        <div class="pagination-controls">
+                            <button class="btn btn-outline" onclick="changePage(-1)" disabled id="prevBtn">
+                                <i class="fas fa-chevron-left"></i> Anterior
+                            </button>
+                            <span class="page-info">Página <span id="currentPage">1</span></span>
+                            <button class="btn btn-outline" onclick="changePage(1)" disabled id="nextBtn">
+                                Siguiente <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- User Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Nuevo Usuario</h2>
+                <span class="close" onclick="closeUserModal()">&times;</span>
+            </div>
+            <form id="userForm" class="modal-body">
+                <input type="hidden" id="userId">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modalUsername">Usuario *</label>
+                        <input type="text" id="modalUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="modalEmail">Email *</label>
+                        <input type="email" id="modalEmail" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modalNombre">Nombre *</label>
+                        <input type="text" id="modalNombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="modalApellido">Apellido *</label>
+                        <input type="text" id="modalApellido" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modalPuesto">Puesto</label>
+                        <input type="text" id="modalPuesto">
+                    </div>
+                    <div class="form-group">
+                        <label for="modalFechaInicio">Fecha Inicio</label>
+                        <input type="date" id="modalFechaInicio">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="modalPassword">Contraseña <span id="passwordRequired">*</span></label>
+                    <input type="password" id="modalPassword">
+                    <small id="passwordHelp">Dejar vacío para mantener la contraseña actual</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="modalFoto">Foto de Perfil</label>
+                    <input type="file" id="modalFoto" accept="image/*" 
+                           onchange="previewImage(this)">
+                    <div id="imagePreview" class="image-preview hidden">
+                        <img id="previewImg" src="">
+                        <button type="button" onclick="removeImage()" class="btn-remove-image">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="modalEstatus">Estado</label>
+                    <select id="modalEstatus">
+                        <option value="ACTIVO">Activo</option>
+                        <option value="INACTIVO">Inactivo</option>
+                        <option value="BLOQUEADO">Bloqueado</option>
+                    </select>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeUserModal()">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="saveUser()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content confirm-modal">
+            <div class="modal-header">
+                <h2>Confirmar Eliminación</h2>
+                <span class="close" onclick="closeDeleteModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro que desea eliminar al usuario <strong id="deleteUserName"></strong>?</p>
+                <p class="warning-text">Esta acción no se puede deshacer.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeDeleteModal()">Cancelar</button>
+                <button type="button" class="btn btn-danger" onclick="confirmDelete()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/usuarios.js"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tipos de Cuentas - Sistema de Seguridad Bravo</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/modules.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Sistema Seguridad Bravo</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="../dashboard.html" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <div class="nav-section">Cuenta Corriente - Parámetros</div>
+                <a href="estado_civil.html" class="nav-item">
+                    <span class="nav-icon">💍</span>
+                    <span class="nav-text">Estado Civil</span>
+                </a>
+                <a href="tipos_documento.html" class="nav-item">
+                    <span class="nav-icon">🪪</span>
+                    <span class="nav-text">Tipos de Documento</span>
+                </a>
+                <a href="tipos_movimiento_cxc.html" class="nav-item">
+                    <span class="nav-icon">💸</span>
+                    <span class="nav-text">Tipos de Movimiento</span>
+                </a>
+                <a href="tipos_saldo_cuenta.html" class="nav-item active">
+                    <span class="nav-icon">🏦</span>
+                    <span class="nav-text">Tipos de Cuenta</span>
+                </a>
+                <a href="status_cuentas.html" class="nav-item">
+                    <span class="nav-icon">📄</span>
+                    <span class="nav-text">Status de Cuenta</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="../login.html" class="logout-btn">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-text">Cerrar Sesión</span>
+                </a>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-title">
+                    <h1>Gestión de Tipos de Cuenta</h1>
+                    <p>Administra los tipos de saldo de cuenta registrados en el sistema</p>
+                </div>
+                <div class="user-menu">
+                    <span class="user-name">Usuario: Admin</span>
+                </div>
+            </header>
+            <div class="module-container">
+                <div class="module-header">
+                    <h2 class="module-title">Listado de Tipos de Cuenta</h2>
+                    <button class="btn-add" id="btnNuevo">
+                        <span>+</span> Nuevo Tipo de Cuenta
+                    </button>
+                </div>
+                <div class="filters">
+                    <div class="search-box">
+                        <input type="text" placeholder="Buscar tipo de cuenta..." id="searchTipoCuentaInput">
+                    </div>
+                </div>
+                <table class="data-table" id="tablaTipoCuenta">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Nuevo Tipo de Cuenta</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="formTipoCuenta">
+                    <input type="hidden" id="idTipoSaldoCuenta">
+                    
+                    <div class="form-group">
+                        <label for="nombre">Nombre *</label>
+                        <input type="text" id="nombre" required maxlength="50">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="button" class="btn btn-secondary" id="btnCancelar">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/iframe-helper.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/modules/tipos_saldo_cuenta.js"></script>
+</body>
+</html>
