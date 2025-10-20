@@ -16,21 +16,7 @@ app.use(cors());
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 
-// Servir solo recursos estáticos públicos (css, js, images, assets)
-app.use('/css', express.static(path.join(__dirname, '../frontend/css')));
-app.use('/js', express.static(path.join(__dirname, '../frontend/js')));
-app.use('/images', express.static(path.join(__dirname, '../frontend/images')));
-app.use('/assets', express.static(path.join(__dirname, '../frontend/assets')));
-
-// Servir login.html y index.html sin autenticación
-app.get(['/login.html', '/index.html'], (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend', req.path));
-});
-
-// Servir HTML protegidos solo si hay sesión (la protección real la hace el middleware authenticateToken)
-app.get('/*.html', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend', req.path));
-});
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 const dbConfig = {
     host: 'localhost',
@@ -70,7 +56,6 @@ async function verificarYCrearTablas() {
             console.log('Tablas no encontradas, creando estructura inicial...');
             await crearTablasSistema();
             await insertarDatosIniciales();
-            await crearUsuarioManager();
         } else {
             console.log('Tablas verificadas correctamente');
             const [usuarios] = await db.execute('SELECT * FROM USUARIO WHERE IdUsuario = ?', ['manager']);
@@ -487,43 +472,43 @@ async function insertarDatosIniciales() {
         // Insertar OPCIONES
         await db.execute(
             'INSERT INTO OPCION (IdMenu, Nombre, OrdenMenu, Pagina, FechaCreacion, UsuarioCreacion) VALUES (?, ?, ?, ?, NOW(), ?)',
-            [1, 'Empresas', 1, 'empresa.php', 'system']
+            [1, 'Empresas', 1, 'empresa.html', 'system']
         );
         await db.execute(
             'INSERT INTO OPCION (IdMenu, Nombre, OrdenMenu, Pagina, FechaCreacion, UsuarioCreacion) VALUES (?, ?, ?, ?, NOW(), ?)',
-            [1, 'Sucursales', 2, 'sucursal.php', 'system']
+            [1, 'Sucursales', 2, 'sucursal.html', 'system']
         );
         await db.execute(
             'INSERT INTO OPCION (IdMenu, Nombre, OrdenMenu, Pagina, FechaCreacion, UsuarioCreacion) VALUES (?, ?, ?, ?, NOW(), ?)',
-            [1, 'Generos', 3, 'genero.php', 'system']
+            [1, 'Generos', 3, 'genero.html', 'system']
         );
         await db.execute(
             'INSERT INTO OPCION (IdMenu, Nombre, OrdenMenu, Pagina, FechaCreacion, UsuarioCreacion) VALUES (?, ?, ?, ?, NOW(), ?)',
-            [1, 'Estatus Usuario', 4, 'status_usuario.php', 'system']
+            [1, 'Estatus Usuario', 4, 'status_usuario.html', 'system']
         );
         await db.execute(
             'INSERT INTO OPCION (IdMenu, Nombre, OrdenMenu, Pagina, FechaCreacion, UsuarioCreacion) VALUES (?, ?, ?, ?, NOW(), ?)',
-            [1, 'Roles', 5, 'role.php', 'system']
+            [1, 'Roles', 5, 'role.html', 'system']
         );
         await db.execute(
             'INSERT INTO OPCION (IdMenu, Nombre, OrdenMenu, Pagina, FechaCreacion, UsuarioCreacion) VALUES (?, ?, ?, ?, NOW(), ?)',
-            [1, 'Modulos', 6, 'modulo.php', 'system']
+            [1, 'Modulos', 6, 'modulo.html', 'system']
         );
         await db.execute(
             'INSERT INTO OPCION (IdMenu, Nombre, OrdenMenu, Pagina, FechaCreacion, UsuarioCreacion) VALUES (?, ?, ?, ?, NOW(), ?)',
-            [1, 'Menus', 7, 'menu.php', 'system']
+            [1, 'Menus', 7, 'menu.html', 'system']
         );
         await db.execute(
             'INSERT INTO OPCION (IdMenu, Nombre, OrdenMenu, Pagina, FechaCreacion, UsuarioCreacion) VALUES (?, ?, ?, ?, NOW(), ?)',
-            [1, 'Opciones', 3, 'opcion.php', 'system']
-        );
-        await db.execute(
-            'INSERT INTO OPCIOTIPO_ACCESON (IdMenu, Nombre, OrdenMenu, Pagina, FechaCreacion, UsuarioCreacion) VALUES (?, ?, ?, ?, NOW(), ?)',
-            [2, 'Usuarios', 3, 'usuario.php', 'system']
+            [1, 'Opciones', 3, 'opcion.html', 'system']
         );
         await db.execute(
             'INSERT INTO OPCION (IdMenu, Nombre, OrdenMenu, Pagina, FechaCreacion, UsuarioCreacion) VALUES (?, ?, ?, ?, NOW(), ?)',
-            [2, 'Asignar Opciones a un Role', 3, 'asignacion_opcion_role.php', 'system']
+            [2, 'Usuarios', 3, 'usuario.html', 'system']
+        );
+        await db.execute(
+            'INSERT INTO OPCION (IdMenu, Nombre, OrdenMenu, Pagina, FechaCreacion, UsuarioCreacion) VALUES (?, ?, ?, ?, NOW(), ?)',
+            [2, 'Asignar Opciones a un Role', 3, 'asignacion_opcion_role.html', 'system']
         );
 
         //insertar Role_Opcion

@@ -16,21 +16,8 @@ app.use(cors());
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 
-// Servir solo recursos estáticos públicos (css, js, images, assets)
-app.use('/css', express.static(path.join(__dirname, '../frontend/css')));
-app.use('/js', express.static(path.join(__dirname, '../frontend/js')));
-app.use('/images', express.static(path.join(__dirname, '../frontend/images')));
-app.use('/assets', express.static(path.join(__dirname, '../frontend/assets')));
+app.use(express.static(path.join(__dirname, '../frontend')));
 
-// Servir login.html y index.html sin autenticación
-app.get(['/login.html', '/index.html'], (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend', req.path));
-});
-
-// Servir HTML protegidos solo si hay sesión (la protección real la hace el middleware authenticateToken)
-app.get('/*.html', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend', req.path));
-});
 const dbConfig = {
     host: 'localhost',
     user: 'manager',
